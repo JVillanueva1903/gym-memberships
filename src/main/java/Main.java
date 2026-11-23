@@ -11,9 +11,60 @@ public class Main {
                 new BigDecimal("30.00")
         );
 
+        Membership alice = new Membership(
+                "Alice Johnson",
+                6,
+                new BigDecimal("35.00")
+        );
+
+        Membership bob = new Membership(
+                "Bob Smith",
+                12,
+                new BigDecimal("25.00")
+        );
+
+        PremiumMembership carol = new PremiumMembership(
+                "Carol White",
+                12,
+                new BigDecimal("50.00")
+        );
+
+        PremiumMembership frank = new PremiumMembership(
+                "Frank Miller",
+                6,
+                new BigDecimal("50.00")
+        );
+
         System.out.printf("%s, %d months, $%.2f per month%n",
                 henry.getMemberName(),
                 henry.getMonths(),
                 henry.getMonthlyPrice());
+
+        System.out.printf("%s, %d months, $%.2f per month%n",
+                alice.getMemberName(),
+                alice.getMonths(),
+                alice.getMonthlyPrice());
+
+        System.out.printf("%s, %d months, $%.2f per month%n",
+                bob.getMemberName(),
+                bob.getMonths(),
+                bob.getMonthlyPrice());
+
+        System.out.printf("%s, %d months, $%.2f per month%n",
+                carol.getMemberName(),
+                carol.getMonths(),
+                carol.getMonthlyPrice());
+
+        System.out.printf("%s, %d months, $%.2f per month%n",
+                frank.getMemberName(),
+                frank.getMonths(),
+                frank.getMonthlyPrice());
+
+        // Use guest passes
+        carol.useGuestPass();
+        carol.useGuestPass();
+        carol.useGuestPass();
+
+        frank.useGuestPass();
     }
 }
