@@ -1,23 +1,18 @@
 import java.math.BigDecimal;
+import java.util.Collection;
 
-public class Membership {
+public abstract class Membership {
 
     private String memberName;
     private int months;
     private BigDecimal baseRate;
 
-    // Constructor
     public Membership(String memberName, int months, BigDecimal baseRate) {
         this.memberName = memberName;
         this.months = months;
         this.baseRate = baseRate;
     }
 
-    public Membership(String graceLee, int months, BigDecimal bigDecimal, int extraMembers) {
-
-    }
-
-    // Getters
     public String getMemberName() {
         return memberName;
     }
@@ -30,7 +25,6 @@ public class Membership {
         return baseRate;
     }
 
-    // Setters
     public void setMemberName(String memberName) {
         this.memberName = memberName;
     }
@@ -43,69 +37,76 @@ public class Membership {
         this.baseRate = baseRate;
     }
 
-    // Monthly price for a plain membership
-    public BigDecimal getMonthlyPrice() {
-        return baseRate;
-    }
+    // Since Membership is abstract, every subclass must provide its own price.
+    public abstract BigDecimal getMonthlyPrice();
 
-    public Object getSignUpFee() {
-        return null;
+    public BigDecimal getSignUpFee() {
+        return new BigDecimal("49.00");
     }
 
     public BigDecimal getContractTotal() {
-        return null;
+        return getMonthlyPrice()
+                .multiply(BigDecimal.valueOf(months))
+                .add(getSignUpFee());
+    }
+
+    @Override
+    public String toString() {
+        return memberName + ", Monthly Price: $" + getMonthlyPrice();
     }
 }
+import java.math.BigDecimal;
+
 public class BasicMembership extends Membership {
 
     private boolean offPeakOnly;
-    @Override
-    public String toString() {
-        return "Basic | " + getMemberName() + " | " + getMonths()
-                + " months | off-peak only: " + offPeakOnly;
-    }
-    // Constructor
-    public BasicMembership(String memberName, int months, BigDecimal baseRate, boolean offPeakOnly) {
-        super(memberName, months, BigDecimal.valueOf(baseRate));
+
+    public BasicMembership(String memberName,
+                           int months,
+                           BigDecimal baseRate,
+                           boolean offPeakOnly) {
+        super(memberName, months, baseRate);
         this.offPeakOnly = offPeakOnly;
     }
 
-    // Getter
     public boolean isOffPeakOnly() {
         return offPeakOnly;
     }
 
-    // Setter
     public void setOffPeakOnly(boolean offPeakOnly) {
         this.offPeakOnly = offPeakOnly;
     }
 
-    // Override getMonthlyPrice()
+    // Class 'BasicMembership' must either be declared abstract
+    // or implement abstract method 'getMonthlyPrice()' in 'Membership'
     @Override
     public BigDecimal getMonthlyPrice() {
         if (offPeakOnly) {
-            double v = getBaseRate() - 5.00;
-            return v;
+            return getBaseRate().subtract(new BigDecimal("5.00"));
         }
+
         return getBaseRate();
     }
+
+    @Override
+    public String toString() {
+        return "Basic | " + getMemberName() + " | "
+                + getMonths() + " months | off-peak only: "
+                + offPeakOnly;
+    }
 }
+import java.math.BigDecimal;
+
 public class PremiumMembership extends Membership {
 
     private int guestPasses;
 
-    public PremiumMembership(String memberName, int months, BigDecimal baseRate, int guestPasses) {
+    public PremiumMembership(String memberName,
+                             int months,
+                             BigDecimal baseRate,
+                             int guestPasses) {
         super(memberName, months, baseRate);
         this.guestPasses = guestPasses;
-    }
-
-    public PremiumMembership(String carolWhite, int months, BigDecimal bigDecimal) {
-        super(carolWhite, months, bigDecimal);
-    }
-    @Override
-    public String toString() {
-        return "Premium | " + getMemberName() + " | " + getMonths()
-                + " months | guest passes: " + guestPasses;
     }
 
     public int getGuestPasses() {
@@ -117,99 +118,76 @@ public class PremiumMembership extends Membership {
     }
 
     @Override
-    public double getMonthlyPrice() {
-        return getBaseRate() + 18.50;
+    public BigDecimal getMonthlyPrice() {
+        return getBaseRate().add(new BigDecimal("18.50"));
     }
 
     public void useGuestPass() {
         if (guestPasses > 0) {
             guestPasses--;
-            System.out.println("Guest pass used. Remaining passes: " + guestPasses);
+            System.out.println(
+                    "Guest pass used. Remaining passes: " + guestPasses);
         } else {
             System.out.println("No guest passes remaining.");
         }
     }
-}
-public class FamilyMembership extends Membership {
-    private int extraMembers;
 
-    public FamilyMembership(String memberName, int months, double baseRate, int extraMembers) {
-        super(memberName, months, baseRate);
-        this.extraMembers = extraMembers;
-    }
-
-    public FamilyMembership(String graceLee, int months, BigDecimal bigDecimal, int extraMembers) {
-        super(graceLee, months, bigDecimal, extraMembers);
-    }
     @Override
     public String toString() {
-        return "Family | " + getMemberName() + " | " + getMonths()
-                + " months | extra members: " + extraMembers;
-    }
-    public int getExtraMembers() {
-        return extraMembers;
-    }
-
-    public void setExtraMembers(int extraMembers) {
-        this.extraMembers = extraMembers;
-    }
-
-    @Override
-    public double getMonthlyPrice() {
-        double monthlyPrice = getBaseRate() + (extraMembers * 12.50);
-
-        // Apply 10% discount for 3 or more extra members
-        if (extraMembers >= 3) {
-            monthlyPrice *= 0.90;
-        }
-
-        return monthlyPrice;
+        return "Premium | " + getMemberName() + " | "
+                + getMonths() + " months | guest passes: "
+                + guestPasses;
     }
 }
-public class membership {
-    private String memberName;
-    private int months;
-    private BigDecimal baseRate;
+public void FamilyMembership(String memberName,
+                             int months,
+                             BigDecimal baseRate,
+                             int extraMembers) {
+    super(memberName, months, baseRate);
+    this.extraMembers = extraMembers;
+}
 
-    public Membership(String memberName, int months, BigDecimal baseRate) {
-        this.memberName = memberName;
-        this.months = months;
-        this.baseRate = baseRate;
+public int getExtraMembers() {
+    return extraMembers;
+}
+
+public void setExtraMembers(int extraMembers) {
+    this.extraMembers = extraMembers;
+}
+
+@Override
+public BigDecimal getMonthlyPrice() {
+
+    int extraMembers;
+    BigDecimal monthlyPrice =
+            getBaseRate().add(
+                    BigDecimal.valueOf(extraMembers * 12.50));
+
+    if (extraMembers >= 3) {
+        monthlyPrice =
+                monthlyPrice.multiply(new BigDecimal("0.90"));
     }
 
-    public String getMemberName() {
-        return memberName;
-    }
+    return monthlyPrice;
+}
 
-    public int getMonths() {
-        return months;
-    }
+private <E> Collection getBaseRate() {
+    return null;
+}
 
-    public BigDecimal getBaseRate() {
-        return baseRate;
-    }
+@Override
+public String toString() {
+    String extraMembers;
+    return "Family | " + getMemberName() + " | "
+            + getMonths() + " months | extra members: "
+            + extraMembers;
+}
 
-    public void setMemberName(String memberName) {
-        this.memberName = memberName;
-    }
+private String getMonths() {
+    return null;
+}
 
-    public void setMonths(int months) {
-        this.months = months;
-    }
-
-    public void setBaseRate(BigDecimal baseRate) {
-        this.baseRate = baseRate;
-    }
-
-    // Sign-up fee for all memberships by default
-    public BigDecimal getSignUpFee() {
-        return new BigDecimal("49.00");
-    }
-
-    // Written once in Membership only
-    public BigDecimal getContractTotal() {
-        return baseRate
-                .multiply(BigDecimal.valueOf(months))
-                .add(getSignUpFee());
-    }
+private String getMemberName() {
+    return null;
+}
 }
