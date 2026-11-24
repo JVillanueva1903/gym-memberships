@@ -57,7 +57,7 @@ public abstract class Membership {
 }
 import java.math.BigDecimal;
 
-public class BasicMembership extends Membership {
+public static class BasicMembership extends Membership {
 
     private boolean offPeakOnly;
 
@@ -97,7 +97,7 @@ public class BasicMembership extends Membership {
 }
 import java.math.BigDecimal;
 
-public class PremiumMembership extends Membership {
+public static class PremiumMembership extends Membership {
 
     private int guestPasses;
 
@@ -139,7 +139,7 @@ public class PremiumMembership extends Membership {
                 + guestPasses;
     }
 }
-public void FamilyMembership(String memberName,
+public FamilyMembership(String memberName,
                              int months,
                              BigDecimal baseRate,
                              int extraMembers) {
@@ -148,6 +148,7 @@ public void FamilyMembership(String memberName,
 }
 
 public int getExtraMembers() {
+    int extraMembers;
     return extraMembers;
 }
 

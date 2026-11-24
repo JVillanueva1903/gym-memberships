@@ -1,3 +1,4 @@
+import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
@@ -7,6 +8,53 @@ public class Main {
 
         System.out.println("=== Gym Memberships ===");
 
+        ArrayList<Membership> memberships = createMemberships();
+
+        BigDecimal monthlyIncome = BigDecimal.ZERO;
+        BigDecimal allContracts = BigDecimal.ZERO;
+
+        // Loop #1
+        for (Membership membership : memberships) {
+            System.out.println(membership);
+
+            printCosts(membership);
+
+            monthlyIncome = monthlyIncome.add(
+                    membership.getMonthlyPrice());
+
+            allContracts = allContracts.add(
+                    membership.getContractTotal());
+        }
+
+        System.out.println();
+        System.out.println("Number of memberships: "
+                + memberships.size());
+
+        System.out.printf("Monthly income: $%.2f%n",
+                monthlyIncome);
+
+        System.out.printf("All contracts total: $%.2f%n",
+                allContracts);
+
+        // Loop #2
+        System.out.println();
+        System.out.println("--- Membership Actions ---");
+
+        memberships.forEach(Main::accept);
+
+        // Loop #3
+        System.out.println();
+        System.out.println("--- Membership Types ---");
+
+        for (Membership membership : memberships) {
+            System.out.println(
+                    membership.getMemberName()
+                            + " -> "
+                            + membership.getClass().getSimpleName());
+        }
+    }
+
+    private static ArrayList<Membership> createMemberships() {
         ArrayList<Membership> memberships = new ArrayList<>();
 
         // 'Membership' is abstract; cannot be instantiated
@@ -59,80 +107,49 @@ public class Main {
         memberships.add(frank);
         memberships.add(grace);
         memberships.add(emma);
-
-        BigDecimal monthlyIncome = BigDecimal.ZERO;
-        BigDecimal allContracts = BigDecimal.ZERO;
-
-        // Loop #1
-        for (Membership membership : memberships) {
-            System.out.println(membership);
-
-            printCosts(membership);
-
-            monthlyIncome = monthlyIncome.add(
-                    membership.getMonthlyPrice());
-
-            allContracts = allContracts.add(
-                    membership.getContractTotal());
-        }
-
-        System.out.println();
-        System.out.println("Number of memberships: "
-                + memberships.size());
-
-        System.out.printf("Monthly income: $%.2f%n",
-                monthlyIncome);
-
-        System.out.printf("All contracts total: $%.2f%n",
-                allContracts);
-
-        // Loop #2
-        System.out.println();
-        System.out.println("--- Membership Actions ---");
-
-        for (Membership membership : memberships) {
-
-            if (membership instanceof BasicMembership basic) {
-
-                if (basic.isOffPeakOnly()) {
-                    System.out.println(
-                            basic.getMemberName()
-                                    + " may enter between 10:00 and 16:00 only.");
-                }
-
-            } else if (membership instanceof PremiumMembership premium) {
-
-                premium.useGuestPass();
-
-            } else if (membership instanceof FamilyMembership family) {
-
-                int keyCards = family.getExtraMembers() + 1;
-
-                System.out.println(
-                        family.getMemberName()
-                                + ": print "
-                                + keyCards
-                                + " key cards.");
-            }
-        }
-
-        // Loop #3
-        System.out.println();
-        System.out.println("--- Membership Types ---");
-
-        for (Membership membership : memberships) {
-            System.out.println(
-                    membership.getMemberName()
-                            + " -> "
-                            + membership.getClass().getSimpleName());
-        }
+        return memberships;
     }
 
     public static void printCosts(Membership membership) {
-        System.out.printf(
+        PrintStream printf = System.out.printf(
                 "   Monthly: $%.2f | Sign-up Fee: $%.2f | Contract Total: $%.2f%n",
                 membership.getMonthlyPrice(),
                 membership.getSignUpFee(),
                 membership.getContractTotal());
+    }
+
+    private static void accept(Membership membership) {
+        if (membership instanceof BasicMembership basic) {
+
+            if (basic.isOffPeakOnly()) {
+                System.out.println(
+                        basic.getMemberName()
+                                + " may enter between 10:00 and 16:00 only.");
+            }
+
+        } else if (membership instanceof PremiumMembership premium) {
+
+            premium.useGuestPass();
+
+        } else if (membership instanceof FamilyMembership family) {
+
+            int keyCards = family.getExtraMembers() + 1;
+
+            System.out.println(
+                    family.getMemberName()
+                            + ": print "
+                            + keyCards
+                            + " key cards.");
+        }
+    }
+
+    private static class FamilyMembership {
+        public FamilyMembership(String graceLee, int i, BigDecimal bigDecimal, int i1) {
+
+        }
+
+        public boolean getMemberName() {
+            return false;
+        }
     }
 }
