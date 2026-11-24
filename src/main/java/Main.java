@@ -12,7 +12,10 @@ public class Main {
         // 'Membership' is abstract; cannot be instantiated
 
         // Membership henryClark =
-        //         new Membership("Henry Clark", 6, new BigDecimal("29.99"));
+        //         new Membership(
+        //                 "Henry Clark",
+        //                 12,
+        //                 new BigDecimal("29.99"));
 
         BasicMembership alice = new BasicMembership(
                 "Alice Johnson",
