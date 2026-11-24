@@ -47,6 +47,14 @@ public class Membership {
     public BigDecimal getMonthlyPrice() {
         return baseRate;
     }
+
+    public Object getSignUpFee() {
+        return null;
+    }
+
+    public BigDecimal getContractTotal() {
+        return null;
+    }
 }
 public class BasicMembership extends Membership {
 

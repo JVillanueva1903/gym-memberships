@@ -61,8 +61,8 @@ public class Main {
         BigDecimal monthlyIncome = BigDecimal.ZERO;
         BigDecimal allContracts = BigDecimal.ZERO;
 
+        // Loop #1
         for (Membership membership : memberships) {
-
             System.out.println(membership);
 
             printCosts(membership);
@@ -83,6 +83,47 @@ public class Main {
 
         System.out.printf("All contracts total: $%.2f%n",
                 allContracts);
+
+        // Loop #2
+        System.out.println();
+        System.out.println("--- Membership Actions ---");
+
+        for (Membership membership : memberships) {
+
+            if (membership instanceof BasicMembership basic) {
+
+                if (basic.isOffPeakOnly()) {
+                    System.out.println(
+                            basic.getMemberName()
+                                    + " may enter between 10:00 and 16:00 only.");
+                }
+
+            } else if (membership instanceof PremiumMembership premium) {
+
+                premium.useGuestPass();
+
+            } else if (membership instanceof FamilyMembership family) {
+
+                int keyCards = family.getExtraMembers() + 1;
+
+                System.out.println(
+                        family.getMemberName()
+                                + ": print "
+                                + keyCards
+                                + " key cards.");
+            }
+        }
+
+        // Loop #3
+        System.out.println();
+        System.out.println("--- Membership Types ---");
+
+        for (Membership membership : memberships) {
+            System.out.println(
+                    membership.getMemberName()
+                            + " -> "
+                            + membership.getClass().getSimpleName());
+        }
     }
 
     public static void printCosts(Membership membership) {
