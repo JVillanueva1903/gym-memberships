@@ -9,10 +9,10 @@ public class Main {
 
         ArrayList<Membership> memberships = new ArrayList<>();
 
-        Membership henry = new Membership(
-                "Henry Clark",
-                3,
-                new BigDecimal("30.00"));
+        // 'Membership' is abstract; cannot be instantiated
+
+        // Membership henryClark =
+        //         new Membership("Henry Clark", 6, new BigDecimal("29.99"));
 
         BasicMembership alice = new BasicMembership(
                 "Alice Johnson",
@@ -50,7 +50,6 @@ public class Main {
                 new BigDecimal("30.00"),
                 1);
 
-        memberships.add(henry);
         memberships.add(alice);
         memberships.add(bob);
         memberships.add(carol);
