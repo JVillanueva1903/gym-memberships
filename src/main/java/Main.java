@@ -143,13 +143,23 @@ public class Main {
         }
     }
 
-    private static class FamilyMembership {
+    private static class FamilyMembership extends Membership {
         public FamilyMembership(String graceLee, int i, BigDecimal bigDecimal, int i1) {
+            super();
 
         }
 
-        public boolean getMemberName() {
-            return false;
+        public String getMemberName() {
+            return String.valueOf(false);
+        }
+
+        @Override
+        public BigDecimal getMonthlyPrice() {
+            return BigDecimal.valueOf(0);
+        }
+
+        public int getExtraMembers() {
+            return 0;
         }
     }
 }
