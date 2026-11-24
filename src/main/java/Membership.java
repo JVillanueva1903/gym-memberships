@@ -57,7 +57,7 @@ public class BasicMembership extends Membership {
                 + " months | off-peak only: " + offPeakOnly;
     }
     // Constructor
-    public BasicMembership(String memberName, int months, double baseRate, boolean offPeakOnly) {
+    public BasicMembership(String memberName, int months, BigDecimal baseRate, boolean offPeakOnly) {
         super(memberName, months, BigDecimal.valueOf(baseRate));
         this.offPeakOnly = offPeakOnly;
     }
@@ -86,7 +86,7 @@ public class PremiumMembership extends Membership {
 
     private int guestPasses;
 
-    public PremiumMembership(String memberName, int months, double baseRate, int guestPasses) {
+    public PremiumMembership(String memberName, int months, BigDecimal baseRate, int guestPasses) {
         super(memberName, months, baseRate);
         this.guestPasses = guestPasses;
     }
